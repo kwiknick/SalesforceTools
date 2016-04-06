@@ -1,0 +1,24 @@
+public class SendEmailWhenExceptionOccurs {
+    public SendEmailWhenExceptionOccurs(Exception error) {
+        String sMessage = 'ERROR: An exception has occured. <br>Type: ' + error.getTypeName() + '<br>Message: ' + error.getMessage() + 
+	                  '<br>Line Number: ' + error.getLineNumber() + '<br>Stack Trace: ' + error.getStackTraceString();
+	sendEmail(sMessage);
+        }
+			    
+	public SendEmailWhenExceptionOccurs(String error) {
+	    String sMessage =  error;
+	    sendEmail(sMessage);
+	}
+
+	public void sendEmail (String sMessage) {
+	    String[] toEmailAddresses = new String[] {'your_email@here.com'};
+
+	    Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+	    mail.setToAddresses(toEmailAddresses);
+	    mail.setSubject('An Exception Occured');
+	    String body = '<html lang="en"><body><br><br>This email alert is to bring to your attention that an exception occured.<br><br><b>Here is the detail of the Exception: </b>' +
+	                  '<br><br>' + sMessage + '</body></html>';
+	    mail.setHtmlBody(body);
+	    Messaging.sendEmail(new Messaging.SingleEmailMessage[]{mail});
+	}
+}
